@@ -344,7 +344,7 @@
         padding: 60px 32px 100px;
       }
     }
-    
+
     </style>
   </head>
   <body>
@@ -445,11 +445,33 @@
     });
 
 
-    // tymczasowy placeholder żeby strona się nie sypała przed dodaniem render()
+    
     function setFilter(f) { console.log('setFilter - TODO', f); }
     function clearDone() { console.log('clearDone - TODO'); }
+
+// RENDEROWANIE - odświeża całą listę i statystyki
     function render() {
-      document.getElementById('stats').innerHTML = '<strong>' + tasks.length + '</strong> zadań w storage';
+      const list = document.getElementById('task-list');
+      list.innerHTML = '';
+
+      if (tasks.length === 0) {
+        list.innerHTML = '<li><div class="empty-state"><span class="icon">📋</span><p>Brak zadań. Czas na kawę! ☕</p></div></li>';
+      } else {
+        for (let i = 0; i < tasks.length; i++) {
+          const t = tasks[i];
+          const li = document.createElement('li');
+          li.className = 'task-item';
+          li.innerHTML = '<span class="task-text">' + t.text + '</span>';
+          list.appendChild(li);
+        }
+      }
+
+      let activeCount = 0;
+      for (let i = 0; i < tasks.length; i++) {
+        if (!tasks[i].done) activeCount++;
+      }
+      document.getElementById('stats').innerHTML =
+        '<strong>' + activeCount + '</strong> z <strong>' + tasks.length + '</strong> zadań do wykonania';
     }
 
     init();
