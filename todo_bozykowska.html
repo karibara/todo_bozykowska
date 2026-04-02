@@ -217,6 +217,134 @@
       #stats strong {
         color: #f97316;
       }
+
+      /* lista zadań  */
+      #task-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .task-item {
+      background: #1a1a1a;
+      border: 1px solid #2e2e2e;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      transition: border-color 0.15s;
+      animation: slideIn 0.22s ease;
+    }
+
+    .task-item:hover {
+      border-color: #3a3a3a;
+    }
+
+    .task-item.done {
+      opacity: 0.55;
+    }
+
+    .task-item.done .task-text {
+      text-decoration: line-through;
+      color: #4b4b4b;
+    }
+
+    /* własny checkbox - domyślny wygląda różnie w różnych przeglądarkach */
+    .task-check {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      border: 2px solid #2e2e2e;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.15s;
+    }
+
+    .task-check:hover {
+      border-color: #f97316;
+    }
+
+    .task-check:checked {
+      background: #f97316;
+      border-color: #f97316;
+    }
+
+    /* ptaszek w checkboxie */
+    .task-check:checked::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 5px;
+      width: 6px;
+      height: 10px;
+      border: 2px solid #fff;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
+
+    .task-text {
+      flex: 1;
+      font-size: 15px;
+      word-break: break-word;
+    }
+
+    /* pusty stan */
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: #737373;
+    }
+
+    .empty-state .icon {
+      font-size: 36px;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .list-footer {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: #737373;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .btn-ghost:hover {
+      color: #ef4444;
+    }
+
+    /* responsywność */
+    @media (min-width: 480px) {
+      body {
+        padding: 40px 24px 80px;
+      }
+
+      .add-form {
+        flex-wrap: nowrap;
+      }
+    }
+
+    @media (min-width: 768px) {
+      body {
+        padding: 60px 32px 100px;
+      }
+    }
+    
     </style>
   </head>
   <body>
@@ -284,8 +412,40 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
     }
 
+// DODAWANIE TASKÓW
+    function addTask() {
+      const input = document.getElementById('taskInput');
+      const text = input.value.trim(); // trim usuwa spacje z boków
+
+      // jak pusto to podświetlam input na czerwono
+      if (text === '') {
+        input.style.borderColor = '#ef4444';
+        input.focus();
+        setTimeout(function() {
+          input.style.borderColor = '';
+        }, 1000);
+        return;
+      }
+
+      tasks.push({
+        id: Date.now(), // timestamp jako id - zawsze unikalne
+        text: text,
+        done: false
+      });
+
+      input.value = '';
+      input.focus();
+      save();
+      render();
+    }
+
+    // enter w inpucie też dodaje zadanie
+    document.getElementById('taskInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') addTask();
+    });
+
+
     // tymczasowy placeholder żeby strona się nie sypała przed dodaniem render()
-    function addTask() { console.log('addTask - TODO'); }
     function setFilter(f) { console.log('setFilter - TODO', f); }
     function clearDone() { console.log('clearDone - TODO'); }
     function render() {
