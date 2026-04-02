@@ -258,18 +258,41 @@
         <button class="btn-ghost" onclick="clearDone()">Usuń wykonane</button>
       </div>
     </div>
+
+    <!-- METODY -->
     <script>
-      // function addTask() {
-      //   const input = document.getElementById("taskInput");
-      //   const task = input.value.trim();
-      //   if (task) {
-      //     const li = document.createElement("li");
-      //     li.textContent = task;
-      //     li.onclick = () => li.remove(); // Click to remove
-      //     document.getElementById("taskList").appendChild(li);
-      //     input.value = "";
-      //   }
-      // }
+      // tutaj trzymam wszystkie zadania - tablica obiektów
+      let tasks = [];
+
+      // aktualny filtr
+    let currentFilter = 'all';
+
+    // klucz do localStorage
+    const STORAGE_KEY = 'todo_tasks';
+
+    //  ładuję zadania z localStorage przy starcie (jeśli coś jest) i renderuję
+    function init() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        tasks = JSON.parse(saved);
+      }
+      render();
+    }
+
+    // zapisuję lokalnie za każdym razem gdy coś się zmienia
+    function save() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    }
+
+    // tymczasowy placeholder żeby strona się nie sypała przed dodaniem render()
+    function addTask() { console.log('addTask - TODO'); }
+    function setFilter(f) { console.log('setFilter - TODO', f); }
+    function clearDone() { console.log('clearDone - TODO'); }
+    function render() {
+      document.getElementById('stats').innerHTML = '<strong>' + tasks.length + '</strong> zadań w storage';
+    }
+
+    init();
     </script>
   </body>
 </html>
