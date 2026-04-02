@@ -71,31 +71,6 @@
         color: #737373;
       }
 
-      /* input */
-      #taskInput {
-        flex: 1 1 200px;
-        background: #1a1a1a;
-        border: 1px solid #2e2e2e;
-        border-radius: 6px;
-        color: #f0ede8;
-        font-family: "DM Sans", sans-serif;
-        font-size: 15px;
-        padding: 12px 16px;
-        outline: none;
-        transition:
-          border-color 0.18s,
-          box-shadow 0.18s;
-      }
-
-      #taskInput:focus {
-        border-color: #f97316;
-        box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
-      }
-
-      #taskInput::placeholder {
-        color: #737373;
-      }
-
       /* przyciski - bazowe style */
       .btn {
         display: inline-flex;
@@ -125,6 +100,122 @@
       .btn-primary:hover {
         background: #c2510c;
       }
+
+      .btn-danger {
+        background: transparent;
+        color: #ef4444;
+        border: 1px solid #ef4444;
+        padding: 6px 10px;
+        font-size: 13px;
+      }
+      .btn-danger:hover {
+        background: #ef4444;
+        color: #fff;
+      }
+
+      /* sekcja dodawania zadań */
+
+      .add-section {
+        margin-bottom: 28px;
+      }
+
+      .add-form {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      #taskInput {
+        flex: 1 1 200px;
+        background: #1a1a1a;
+        border: 1px solid #2e2e2e;
+        border-radius: 6px;
+        color: #f0ede8;
+        font-family: "DM Sans", sans-serif;
+        font-size: 15px;
+        padding: 12px 16px;
+        outline: none;
+        transition:
+          border-color 0.18s,
+          box-shadow 0.18s;
+      }
+
+      #taskInput:focus {
+        border-color: #f97316;
+        box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+      }
+
+      #taskInput::placeholder {
+        color: #737373;
+      }
+
+      /* input */
+      #taskInput {
+        flex: 1 1 200px;
+        background: #1a1a1a;
+        border: 1px solid #2e2e2e;
+        border-radius: 6px;
+        color: #f0ede8;
+        font-family: "DM Sans", sans-serif;
+        font-size: 15px;
+        padding: 12px 16px;
+        outline: none;
+        transition:
+          border-color 0.18s,
+          box-shadow 0.18s;
+      }
+
+      #taskInput:focus {
+        border-color: #f97316;
+        box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+      }
+
+      #taskInput::placeholder {
+        color: #737373;
+      }
+
+      /* filtry */
+      .filters {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+        margin-bottom: 16px;
+      }
+
+      .filter-btn {
+        padding: 7px 16px;
+        border: 1px solid #2e2e2e;
+        border-radius: 99px;
+        background: #1a1a1a;
+        color: #737373;
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+
+      .filter-btn:hover {
+        border-color: #f97316;
+        color: #f0ede8;
+      }
+
+      .filter-btn.active {
+        background: #f97316;
+        border-color: #f97316;
+        color: #fff;
+      }
+
+      #stats {
+        font-size: 13px;
+        color: #737373;
+        margin-bottom: 14px;
+        font-family: "Space Mono", monospace;
+      }
+
+      #stats strong {
+        color: #f97316;
+      }
     </style>
   </head>
   <body>
@@ -136,14 +227,16 @@
 
       <!-- formularz do dodawania zadań -->
       <!-- div zamaist form, żeby nie przeładowywało strony -->
-      <div>
-        <input
-          type="text"
-          id="taskInput"
-          placeholder="Co masz do zrobienia?"
-          maxlength="200"
-        />
-        <button class="btn btn-primary" onclick="addTask()">+ Dodaj</button>
+      <div class="add-section">
+        <div class="add-form">
+          <input
+            type="text"
+            id="taskInput"
+            placeholder="Co masz do zrobienia?"
+            maxlength="200"
+          />
+          <button class="btn btn-primary" onclick="addTask()">+ Dodaj</button>
+        </div>
       </div>
 
       <!-- filtry -->
@@ -154,23 +247,28 @@
       </div>
 
       <!-- statystyki - ile/ile wykonanych zadań-->
-       <p id="stats"></p>
+      <p id="stats"></p>
 
-        <!-- lista zadań -->
-         <ul id="task-list"></ul>
+      <!-- lista zadań -->
+      <ul id="task-list"></ul>
+
+      <!-- chowane, pokazuje się jak są jakieś wykonane -->
+      <div class="list-footer" id="footer" style="display: none">
+        <button class="btn-ghost" onclick="clearDone()">Usuń wykonane</button>
+      </div>
     </div>
     <script>
-      function addTask() {
-        const input = document.getElementById("taskInput");
-        const task = input.value.trim();
-        if (task) {
-          const li = document.createElement("li");
-          li.textContent = task;
-          li.onclick = () => li.remove(); // Click to remove
-          document.getElementById("taskList").appendChild(li);
-          input.value = "";
-        }
-      }
+      // function addTask() {
+      //   const input = document.getElementById("taskInput");
+      //   const task = input.value.trim();
+      //   if (task) {
+      //     const li = document.createElement("li");
+      //     li.textContent = task;
+      //     li.onclick = () => li.remove(); // Click to remove
+      //     document.getElementById("taskList").appendChild(li);
+      //     input.value = "";
+      //   }
+      // }
     </script>
   </body>
 </html>
